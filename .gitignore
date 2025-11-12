@@ -1,0 +1,14 @@
+# Media, data and secret files
+media/
+data/
+secrets/
+
+# System files
+.DS_Store
+
+# Python cache files
+__pycache__/
+
+# Docker files
+docker-compose.override.yml
+docker-compose.yml
