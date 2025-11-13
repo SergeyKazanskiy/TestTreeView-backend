@@ -13,21 +13,22 @@ class UserLogin(BaseModel):
     password: str
 
 class RegistrationResponse(BaseModel):
-    id: int
+    user_id: int
     token: str
 
-class LoginResponse(UserBase):
-    id: int
-    token: str
 
-    class Config:
-        orm_mode = True
+class LoginResponse(BaseModel):
+    user_id: int
+    token: str
+    first_name: str
+    last_name: str
+
         
 class UserResponse(UserBase):
     id: int
 
     class Config:
-        orm_mode = True
+        from_attributes = True
 
 class TokenUpdate(BaseModel):
     token_FCM: str

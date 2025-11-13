@@ -2,10 +2,10 @@ from fastapi import FastAPI, Depends, APIRouter
 from fastapi.staticfiles import StaticFiles
 from fastapi.middleware.cors import CORSMiddleware
 from config import MEDIA_DIR
-from models.base import Base
+from database import Base
 from database import engine
-from app.auth.utils import get_decoded_token
-from app.auth.routers import router as auth_router
+from auth.utils import get_decoded_token
+from auth.routers import router as auth_router
 from routers import users
 
 
@@ -22,22 +22,19 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-
 #Server root endpoint
 @app.get("/")
 def root():
     return {"message": "Backend is running!"}
 
-
 #Routers
 app.include_router(auth_router)
 app.include_router(users.router, prefix="/api", dependencies=[Depends(get_decoded_token)])
 
-
 #Create database
 setup_router = APIRouter()
 
-@setup_router.post("/setup_database", tags=["Auth"])
+@setup_router.post("/setup_database", tags=["auth"])
 async def setup_database():
     async with engine.begin() as conn:
         await conn.run_sync(Base.metadata.drop_all)
@@ -46,7 +43,7 @@ async def setup_database():
 
 app.include_router(setup_router)
 
-
+#.run.sh
 
 
 

@@ -30,7 +30,7 @@ def register_user(user_data: UserCreate, db: Session = Depends(get_session)):
     db.refresh(new_user)
 
     token = get_custom_token(f"user_{new_user.id}")
-    return RegistrationResponse(id=new_user.id, token=token)
+    return {"user_id": new_user.id, "token": token}
 
 
 @router.post("/login", response_model=LoginResponse)
@@ -47,7 +47,7 @@ def login_user(user_data: UserLogin, db: Session = Depends(get_session)):
         raise HTTPException(status_code=400, detail="Invalid credentials")
 
     token = get_custom_token(f"user_{user.id}")
-    return LoginResponse(id=user.id, first_name=user.first_name, last_name=user.last_name, token=token)
+    return {"user_id": user.id, "token": token, "first_name": user.first_name, "last_name": user.last_name}
 
 
 @router.post("/logout")
