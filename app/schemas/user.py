@@ -1,13 +1,21 @@
 from pydantic import BaseModel
+from typing import Optional
+
 
 class UserBase(BaseModel):
     first_name: str
     last_name: str
+    token_FCM: Optional[str]
 
 class UserCreate(UserBase):
     email: str
     password: str
-    
+
+class UserUpdate(BaseModel):
+    first_name: Optional[str]
+    last_name: Optional[str]
+    email: Optional[str]
+
 class UserLogin(BaseModel):
     email: str
     password: str
